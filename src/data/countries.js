@@ -1,4 +1,4 @@
-[{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
+const countries = [{"id":4,"name":"Afghanistan","alpha2":"af","alpha3":"afg"},
 {"id":8,"name":"Albania","alpha2":"al","alpha3":"alb"},
 {"id":12,"name":"Algeria","alpha2":"dz","alpha3":"dza"},
 {"id":20,"name":"Andorra","alpha2":"ad","alpha3":"and"},
@@ -190,4 +190,5 @@
 {"id":704,"name":"Viet Nam","alpha2":"vn","alpha3":"vnm"},
 {"id":887,"name":"Yemen","alpha2":"ye","alpha3":"yem"},
 {"id":894,"name":"Zambia","alpha2":"zm","alpha3":"zmb"},
-{"id":716,"name":"Zimbabwe","alpha2":"zw","alpha3":"zwe"}]
+    { "id": 716, "name": "Zimbabwe", "alpha2": "zw", "alpha3": "zwe" }]
+export default countries;

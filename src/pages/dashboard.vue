@@ -42,28 +42,26 @@
       </v-data-table>
     </v-card>
     <div class="text-center">
-    <v-snackbar
-      v-model="noNationality"
-      :timeout="timeout"
-    >
-      {{ text }}
+      <v-snackbar v-model="noNationality" :timeout="timeout">
+        {{ text }}
 
-      <template v-slot:action="{ attrs }">
-        <v-btn
-          color="blue"
-          text
-          v-bind="attrs"
-          @click="noNationality = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
-  </div>
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="blue"
+            text
+            v-bind="attrs"
+            @click="noNationality = false"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+    </div>
   </v-container>
 </template>
 <script>
 import attendees from "../data/attendees.json";
+import countries from "../data/countries";
 export default {
   data() {
     return {
@@ -81,9 +79,10 @@ export default {
         { text: "Nationality", value: "country" },
       ],
       attendees,
+      countries,
       nationality: null,
       noNationality: false,
-      text: '',
+      text: "",
       timeout: 2000,
     };
   },
@@ -94,18 +93,28 @@ export default {
       const data = await res.json();
       let nationalities = data.country;
 
-      console.log(nationalities);
-      if(nationalities.length <= 0) {
+      if (nationalities.length <= 0) {
         this.noNationality = true;
-        this.text = 'Could not user find Nationality!'
+        return (this.text = "Could not user find Nationality!");
       }
-      if(nationalities.length && nationalities.length > 0) {
-        nationalities.forEach(nat => {
-          // let max= a=> a.reduce((m,x)=> m>x ? m:x);
-          console.log(nat)
-          this.nationality = nat;
-        })
-      }
+      // Get probability of countries and add them to a single array
+      const probability = [
+        ...new Set(nationalities.map((it) => it.probability)),
+      ];
+      // Get the country with max probability
+      let maxProbality = Math.max(...probability);
+
+      // Find the country from the attendees array based on the highest probability
+      const matchedCountry = nationalities.find(
+        (nat) => nat.probability === maxProbality
+      );
+
+      // Get the country name based on the country ID retured from attendees.json
+      let matchedNationName = this.countries.find(
+        (country) => matchedCountry.country_id.toLowerCase() === country.alpha2
+      );
+
+      console.log(matchedNationName.name);
     },
     getColor(gender) {
       if (gender === "Male") {
