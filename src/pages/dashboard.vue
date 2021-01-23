@@ -41,6 +41,25 @@
         </template>
       </v-data-table>
     </v-card>
+    <div class="text-center">
+    <v-snackbar
+      v-model="noNationality"
+      :timeout="timeout"
+    >
+      {{ text }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue"
+          text
+          v-bind="attrs"
+          @click="noNationality = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
   </v-container>
 </template>
 <script>
@@ -63,21 +82,29 @@ export default {
       ],
       attendees,
       nationality: null,
+      noNationality: false,
+      text: '',
+      timeout: 2000,
     };
   },
 
   methods: {
     async guessNationality(item) {
-      console.log("cc", item.name);
-      const res = await fetch(`https://api.nationalize.io?name=${item.name}`)
-      const data = await res.json()
+      const res = await fetch(`https://api.nationalize.io?name=${item.name}`);
+      const data = await res.json();
       let nationalities = data.country;
-         
+
+      console.log(nationalities);
+      if(nationalities.length <= 0) {
+        this.noNationality = true;
+        this.text = 'Could not user find Nationality!'
+      }
       if(nationalities.length && nationalities.length > 0) {
         nationalities.forEach(nat => {
-          this.nationality = nat.probability;
+          // let max= a=> a.reduce((m,x)=> m>x ? m:x);
+          console.log(nat)
+          this.nationality = nat;
         })
-          console.log(this.nationality);
       }
     },
     getColor(gender) {
@@ -108,6 +135,6 @@ export default {
   padding: 15px 25px !important;
 }
 .text-start {
-      padding: 20px 17px !important;
+  padding: 20px 17px !important;
 }
 </style>
