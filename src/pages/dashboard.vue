@@ -90,32 +90,38 @@ export default {
 
   methods: {
     async guessNationality(item) {
-      const res = await fetch(`https://api.nationalize.io?name=${item.name}`);
-      const data = await res.json();
-      let nationalities = data.country;
-
-      if (nationalities.length <= 0) {
+      try {
+        const res = await fetch(`https://api.nationalize.io?name=${item.name}`);
+        const data = await res.json();
+        let nationalities = data.country;
+  
+        if (nationalities.length <= 0) {
+          this.findNationality = true;
+          return (this.text = `Oops! we could not user find ${item.name} Nationality! 😭`);
+        }
+        // Get probability of countries and add them to a single array
+        const probability = [
+          ...new Set(nationalities.map((it) => it.probability)),
+        ];
+        // Get the country with max probability
+        let maxProbality = Math.max(...probability);
+  
+        // Find the country from the attendees array based on the highest probability
+        const matchedCountry = nationalities.find(
+          (nat) => nat.probability === maxProbality
+        );
+  
+        // Get the country name based on the country ID retured from attendees.json
+        let matchedNationName = this.countries.find(
+          (country) => matchedCountry.country_id.toLowerCase() === country.alpha2
+        );
         this.findNationality = true;
-        return (this.text = `Oops! we could not user find ${item.name} Nationality! 😭`);
+        this.text = `${item.name} is from ${matchedNationName.name}`;
+        
+      } catch (error) {
+        this.findNationality = true;
+        this.text = `Something went wrong! Please try again 🙏🏾`;
       }
-      // Get probability of countries and add them to a single array
-      const probability = [
-        ...new Set(nationalities.map((it) => it.probability)),
-      ];
-      // Get the country with max probability
-      let maxProbality = Math.max(...probability);
-
-      // Find the country from the attendees array based on the highest probability
-      const matchedCountry = nationalities.find(
-        (nat) => nat.probability === maxProbality
-      );
-
-      // Get the country name based on the country ID retured from attendees.json
-      let matchedNationName = this.countries.find(
-        (country) => matchedCountry.country_id.toLowerCase() === country.alpha2
-      );
-      this.findNationality = true;
-      this.text = `${item.name} is from ${matchedNationName.name}`;
     },
     getColor(gender) {
       if (gender === "Male") {
