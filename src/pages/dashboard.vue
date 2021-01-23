@@ -42,7 +42,7 @@
       </v-data-table>
     </v-card>
     <div class="text-center">
-      <v-snackbar v-model="noNationality" :timeout="timeout">
+      <v-snackbar v-model="findNationality" :timeout="timeout">
         {{ text }}
 
         <template v-slot:action="{ attrs }">
@@ -50,7 +50,7 @@
             color="blue"
             text
             v-bind="attrs"
-            @click="noNationality = false"
+            @click="findNationality = false"
           >
             Close
           </v-btn>
@@ -81,7 +81,7 @@ export default {
       attendees,
       countries,
       nationality: null,
-      noNationality: false,
+      findNationality: false,
       text: "",
       timeout: 2000,
     };
@@ -94,8 +94,8 @@ export default {
       let nationalities = data.country;
 
       if (nationalities.length <= 0) {
-        this.noNationality = true;
-        return (this.text = "Could not user find Nationality!");
+        this.findNationality = true;
+        return (this.text = `Oops! we could not user find ${item.name} Nationality! 😭`);
       }
       // Get probability of countries and add them to a single array
       const probability = [
@@ -113,8 +113,8 @@ export default {
       let matchedNationName = this.countries.find(
         (country) => matchedCountry.country_id.toLowerCase() === country.alpha2
       );
-
-      console.log(matchedNationName.name);
+      this.findNationality = true;
+      this.text = `${item.name} is from ${matchedNationName.name}`;
     },
     getColor(gender) {
       if (gender === "Male") {
