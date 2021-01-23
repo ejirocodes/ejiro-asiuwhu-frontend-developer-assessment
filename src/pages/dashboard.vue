@@ -1,29 +1,30 @@
 <template >
   <v-container class="dashboard">
-    <v-card color="grey lighten-4" flat height="200px" tile>
+    <v-card class="card-table">
+      <v-row class="px-4 pt-4 pb-2">
+        <v-col cols="12" md="6">
+          <h1>Event Attendees</h1>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="12" md="6">
+          <v-text-field
+            v-model="search"
+            outlined
+            single-line
+            dense
+            hide-details
+            append-icon="mdi-magnify"
+            label="Search for attendees..."
+            class="ma-2"
+          ></v-text-field>
+        </v-col>
+      </v-row>
       <v-data-table
         :headers="headers"
         :items="attendees"
         :items-per-page="10"
         :search="search"
-        class="elevation-1"
       >
-        <template v-slot:top>
-          <v-toolbar flat>
-            <h1>Event Attendees</h1>
-            <v-spacer></v-spacer>
-            <v-text-field
-              v-model="search"
-              outlined
-              single-line
-              dense
-              hide-details
-              append-icon="mdi-magnify"
-              label="Search for attendees..."
-              class="ma-2"
-            ></v-text-field>
-          </v-toolbar>
-        </template>
         <template v-slot:[`item.country`]="{ item }">
           <v-btn
             x-small
@@ -35,28 +36,28 @@
           </v-btn>
         </template>
         <template v-slot:[`item.gender`]="{ item }">
-          <v-chip :color="getColor(item.gender)" outlined x-small>
+          <v-chip :color="getColor(item.gender)" outlined small>
             {{ item.gender }}
           </v-chip>
         </template>
       </v-data-table>
-    </v-card>
-    <div class="text-center">
-      <v-snackbar v-model="findNationality" :timeout="timeout">
-        {{ text }}
+      <div class="text-center">
+        <v-snackbar v-model="findNationality" :timeout="timeout" color="sec">
+          {{ text }}
 
-        <template v-slot:action="{ attrs }">
-          <v-btn
-            color="blue"
-            text
-            v-bind="attrs"
-            @click="findNationality = false"
-          >
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
-    </div>
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              color="#fff"
+              text
+              v-bind="attrs"
+              @click="findNationality = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
+    </v-card>
   </v-container>
 </template>
 <script>
@@ -83,7 +84,7 @@ export default {
       nationality: null,
       findNationality: false,
       text: "",
-      timeout: 2000,
+      timeout: 2500,
     };
   },
 
@@ -136,6 +137,10 @@ export default {
 };
 </script>
 <style>
+.card-table {
+   margin: 4rem 0 5rem !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.131) !important;
+}
 .v-btn__content {
   text-transform: none;
   font-size: 11px;
@@ -145,5 +150,14 @@ export default {
 }
 .text-start {
   padding: 20px 17px !important;
+}
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th,
+.v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
+  font-size: 1rem !important;
+  color: #fd9575 !important;
+}
+h1 {
+  color: #612715;
 }
 </style>

@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <v-main>
-      <Dashboard/>
+      <Dashboard />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Dashboard from './pages/dashboard'
+import Dashboard from "./pages/dashboard";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     Dashboard,
@@ -23,8 +23,8 @@ export default {
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 .v-application {
-  font-family: 'Lato', sans-serif !important;
+  font-family: "Lato", sans-serif !important;
 }
 </style>
