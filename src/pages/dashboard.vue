@@ -42,7 +42,7 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-snackbar v-model="findNationality" :timeout="timeout" :color="color">
+        <v-snackbar v-model="findNationality" :timeout="timeout" :color="color" top right>
           {{ text }}
 
           <template v-slot:action="{ attrs }">
@@ -84,7 +84,7 @@ export default {
       nationality: null,
       findNationality: false,
       text: "",
-      timeout: 3000,
+      timeout: 3500,
       color: "sec",
     };
   },
