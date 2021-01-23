@@ -123,22 +123,11 @@ export default {
       } else return "primary";
     },
   },
-  computed: {
-    colour(gender) {
-      let colour;
-      if (gender == "Male") {
-        colour = "blue";
-      } else {
-        colour = "red";
-      }
-      return colour;
-    },
-  },
 };
 </script>
 <style>
 .card-table {
-   margin: 4rem 0 5rem !important;
+  margin: 4rem 0 5rem !important;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.131) !important;
 }
 .v-btn__content {
@@ -159,5 +148,12 @@ export default {
 }
 h1 {
   color: #612715;
+}
+.theme--light.v-data-table
+  > .v-data-table__wrapper
+  > table
+  > tbody
+  > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
+  background: #3fa4b151 !important;
 }
 </style>
