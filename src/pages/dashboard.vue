@@ -1,5 +1,7 @@
 <template >
   <v-container class="dashboard">
+    <img v-if="loading" src="../assets/loader.gif" alt="" class="loader" />
+
     <v-card class="card-table">
       <v-row class="px-4 pt-4 pb-2">
         <v-col cols="12" md="6">
@@ -42,7 +44,13 @@
         </template>
       </v-data-table>
       <div class="text-center">
-        <v-snackbar v-model="findNationality" :timeout="timeout" :color="color" top right>
+        <v-snackbar
+          v-model="findNationality"
+          :timeout="timeout"
+          :color="color"
+          top
+          right
+        >
           {{ text }}
 
           <template v-slot:action="{ attrs }">
@@ -86,6 +94,7 @@ export default {
       text: "",
       timeout: 3500,
       color: "sec",
+      loading: true,
     };
   },
 
@@ -104,7 +113,7 @@ export default {
         const probability = [
           ...new Set(nationalities.map((it) => it.probability)),
         ];
-        // Get the country with max probability
+        // Get the country with higest probability
         let maxProbality = Math.max(...probability);
 
         // Find the country from the attendees array based on the highest probability
@@ -122,7 +131,7 @@ export default {
       } catch (error) {
         this.findNationality = true;
         this.text = `Something went wrong! Please try again 🙏🏾`;
-        this.color = "error"
+        this.color = "error";
       }
     },
     getColor(gender) {
@@ -131,37 +140,14 @@ export default {
       } else return "primary";
     },
   },
+  beforeCreate() {
+    this.loading = true
+  },
+  mounted() {
+    this.loading = true
+  },
 };
 </script>
 <style>
-.card-table {
-  margin: 4rem 0 5rem !important;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.131) !important;
-}
-.v-btn__content {
-  text-transform: none;
-  font-size: 11px;
-}
-.v-btn {
-  padding: 15px 25px !important;
-}
-.text-start {
-  padding: 20px 17px !important;
-}
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > th,
-.v-data-table > .v-data-table__wrapper > table > thead > tr > th,
-.v-data-table > .v-data-table__wrapper > table > tfoot > tr > th {
-  font-size: 1rem !important;
-  color: #fd9575 !important;
-}
-h1 {
-  color: #612715;
-}
-.theme--light.v-data-table
-  > .v-data-table__wrapper
-  > table
-  > tbody
-  > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper) {
-  background: #3fa4b151 !important;
-}
+
 </style>
