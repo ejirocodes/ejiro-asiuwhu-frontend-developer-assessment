@@ -15,7 +15,7 @@
   transform: translate(-50%, -50%);
   z-index: 223;
   width: 100vw;
-  height: 100%;
+  height: 120%;
   background: white;
 }
 .spinner {
