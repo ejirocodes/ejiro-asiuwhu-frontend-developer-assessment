@@ -1,6 +1,6 @@
 <template >
   <v-container class="dashboard">
-    <img v-if="loading" src="../assets/loader.gif" alt="" class="loader" />
+        <PreLoader v-if="isLoading" />
 
     <v-card class="card-table">
       <v-row class="px-4 pt-4 pb-2">
@@ -71,6 +71,8 @@
 <script>
 import attendees from "../data/attendees.json";
 import countries from "../data/countries";
+import PreLoader from "../components/PreLoader";
+
 export default {
   data() {
     return {
@@ -94,10 +96,12 @@ export default {
       text: "",
       timeout: 3500,
       color: "sec",
-      loading: true,
+      isLoading: true
     };
   },
-
+  components: {
+    PreLoader
+  },
   methods: {
     async guessNationality(item) {
       try {
@@ -140,14 +144,15 @@ export default {
       } else return "primary";
     },
   },
-  beforeCreate() {
-    this.loading = true
+   beforeCreate() {
+    this.isLoading = true;
   },
   mounted() {
-    this.loading = true
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1400);
   },
 };
 </script>
 <style>
-
 </style>
