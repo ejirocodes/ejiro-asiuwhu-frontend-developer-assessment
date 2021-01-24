@@ -1,6 +1,6 @@
 <template >
   <v-container class="dashboard">
-        <PreLoader v-if="isLoading" />
+    <PreLoader v-if="isLoading" />
 
     <v-card class="card-table">
       <v-row class="px-4 pt-4 pb-2">
@@ -96,11 +96,11 @@ export default {
       text: "",
       timeout: 3500,
       color: "sec",
-      isLoading: true
+      isLoading: true,
     };
   },
   components: {
-    PreLoader
+    PreLoader,
   },
   methods: {
     async guessNationality(item) {
@@ -109,10 +109,14 @@ export default {
         const data = await res.json();
         let nationalities = data.country;
 
+        // If the country array is empty, notify the user (vendor)
         if (nationalities.length <= 0) {
+          this.color = "error";
           this.findNationality = true;
-          return (this.text = `Oops! we could not user find ${item.name} Nationality! 😭`);
+          this.text = `Oops! we could not user find ${item.name} Nationality! 😭`;
+          return false;
         }
+
         // Get probability of countries and add them to a single array
         const probability = [
           ...new Set(nationalities.map((it) => it.probability)),
@@ -130,7 +134,11 @@ export default {
           (country) =>
             matchedCountry.country_id.toLowerCase() === country.alpha2
         );
+
+        // If all criteria are met,
+        // show toast with the prdicted user Nationality
         this.findNationality = true;
+        this.color = "sec";
         this.text = `${item.name} is from ${matchedNationName.name}`;
       } catch (error) {
         this.findNationality = true;
@@ -144,7 +152,7 @@ export default {
       } else return "primary";
     },
   },
-   beforeCreate() {
+  beforeCreate() {
     this.isLoading = true;
   },
   mounted() {
