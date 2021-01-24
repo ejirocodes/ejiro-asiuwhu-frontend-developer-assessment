@@ -21,7 +21,7 @@
 .spinner {
   width: 80px;
   height: 80px;
-  background-color: #FC6435;
+  background-color: #fc6435;
   border-radius: 100%;
   -webkit-animation: sk-scaleout 1s infinite ease-in-out;
   animation: sk-scaleout 1s infinite ease-in-out;
@@ -44,6 +44,11 @@
     -webkit-transform: scale(1);
     transform: scale(1);
     opacity: 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .spinner-wrapper {
+    top: 14% !important;
   }
 }
 </style>
